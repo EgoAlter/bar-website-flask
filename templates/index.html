@@ -1,8 +1,91 @@
 {% extends "layout.html" %}
-
-{% block title %}Home{% endblock %}
+{% block title %}The Mad House Newcastle | Quirky Cocktails & Food With a Twist{% endblock %}
 
 {% block content %}
-    <h1>Hello from Flask!</h1>
-    <p>This is the homepage.</p>
+
+<!-- Hero -->
+<div class="hero d-flex align-items-center justify-content-center text-center">
+    <div>
+        <h1 class="display-2 fw-bold">THE MADDEST BAR<br>IN NEWCASTLE</h1>
+        <p class="lead mb-4">Quirky cocktails, sharer food, and a buzzing atmosphere made for unforgettable nights.</p>
+        <a href="/book" class="btn btn-danger btn-lg me-2">Book a Table</a>
+        <a href="/menu/pink-lane" class="btn btn-outline-light btn-lg">View Menu</a>
+    </div>
+</div>
+
+<!-- Opening Hours & Happy Hour -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-6">
+                <div class="card h-100 p-4">
+                    <h3 class="fw-bold">Opening Hours</h3>
+                    {% for day, hours in venues.hours.items() %}
+                    <p class="mb-1"><strong>{{ day }}:</strong> {{ hours }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 p-4 d-flex flex-column justify-content-center">
+                    <h3 class="fw-bold">Happy Hour 🍹</h3>
+                    <p class="lead">2 for £18 cocktails</p>
+                    <p>All day, every day. You can't be much happier than that.</p>
+                    <a href="/book" class="btn btn-danger mt-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Highlights -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 p-4 text-center">
+                    <h4 class="fw-bold">🍹 MAD Cocktails</h4>
+                    <p>Expert bartenders, seasonal menus, and drinks that change with the seasons. Come try something you've never had before.</p>
+                    <a href="/menu/pink-lane" class="btn btn-outline-danger mt-auto">Pink Lane Menu</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 text-center">
+                    <h4 class="fw-bold">🥂 Bottomless Brunch</h4>
+                    <p>Every Friday, Saturday, and Sunday. The craziest, most unforgettable bottomless brunch in town.</p>
+                    <a href="/bottomless-brunch" class="btn btn-outline-danger mt-auto">Find Out More</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4 text-center">
+                    <h4 class="fw-bold">🎉 Venue Hire</h4>
+                    <p>Funky, quirky, and unique. Up to 50 people. Perfect for celebrations, parties, and events.</p>
+                    <a href="/private-hire" class="btn btn-outline-danger mt-auto">Enquire Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Two Venues -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Two Locations. One MAD Experience.</h2>
+        <div class="row g-4">
+            {% for key, venue in venues.items() %}
+            {% if key != 'hours' %}
+            <div class="col-md-6">
+                <div class="card h-100 p-4">
+                    <h3 class="fw-bold">{{ venue.name }}</h3>
+                    <p>{{ venue.description }}</p>
+                    <p class="mb-1">📍 {{ venue.address }}</p>
+                    <p>📞 <a href="tel:{{ venue.phone }}">{{ venue.phone }}</a></p>
+                    <a href="{{ venue.booking_url }}" target="_blank" class="btn btn-danger mt-3">Book at This Venue</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}

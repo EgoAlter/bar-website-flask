@@ -1,7 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash, redirect, url_for
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
 from data import venues
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = 'madhouse-dev-key'
+
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
+
+mail = Mail(app)
 
 @app.route("/")
 def home():
@@ -27,8 +42,23 @@ def private_hire():
 def gallery():
     return render_template("gallery.html", venues=venues)
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+
+        msg = Message(
+            subject=f"Mad House enquiry from {name}",
+            sender=os.getenv('MAIL_USERNAME'),
+            recipients=["test@madhouse.dev"],
+            body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        )
+        mail.send(msg)
+        flash("Message sent! We'll be in touch soon.", "success")
+        return redirect(url_for('contact'))
+
     return render_template("contact.html", venues=venues)
 
 @app.route("/gift-cards")
