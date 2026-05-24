@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}The Mad House Newcastle{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+
+        <div class="dropdown">
+            <span>Menus</span>
+            <div class="dropdown-content">
+                <a href="/menu/pink-lane">Pink Lane Menu</a>
+                <a href="/menu/dean-street">Dean Street Menu</a>
+            </div>
+        </div>
+
+        <a href="/bottomless-brunch">Bottomless Brunch</a>
+        <a href="/private-hire">Private Hire</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/contact">Contact</a>
+        <a href="/gift-cards">Gift Cards</a>
+        <a href="/book" class="book-btn">Book a Table</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        {% for key, venue in venues.items() %}
+            {% if key != 'hours' %}
+            <div class="footer-venue">
+                <h3>{{ venue.name }}</h3>
+                <p>{{ venue.address }}</p>
+                <p><a href="tel:{{ venue.phone }}">{{ venue.phone }}</a></p>
+                <p><a href="mailto:{{ venue.email }}">{{ venue.email }}</a></p>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="footer-hours">
+            <h3>Opening Hours</h3>
+            {% for day, hours in venues.hours.items() %}
+            <p><strong>{{ day }}:</strong> {{ hours }}</p>
+            {% endfor %}
+        </div>
+    </footer>
+</body>
+</html>
