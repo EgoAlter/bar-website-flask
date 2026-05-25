@@ -80,8 +80,8 @@ myapp/
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/EgoAlter/madhouse-flask.git
-cd madhouse-flask
+git clone https://github.com/EgoAlter/bar-website-flask.git
+cd bar-website-flask
 ```
 
 **2. Create and activate a virtual environment**
