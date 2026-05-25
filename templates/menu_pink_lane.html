@@ -9,13 +9,13 @@
         <span class="badge bg-danger">2 for £18 cocktails — all day, every day</span>
     </div>
 
-    {% for category, items in menu.items() %}
+    {% for category in categories %}
     <div class="mb-5">
         <h2 class="fw-bold text-capitalize border-bottom border-danger pb-2 mb-4">
             {{ category | replace("_", " ") }}
         </h2>
         <div class="row g-3">
-            {% for item in items %}
+            {% for item in items if item.category == category %}
             <div class="col-md-6">
                 <div class="card h-100 p-3 d-flex flex-row justify-content-between align-items-start">
                     <div>
