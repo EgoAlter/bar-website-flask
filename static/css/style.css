@@ -1,5 +1,5 @@
 .hero {
     min-height: 80vh;
     background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-                url('https://images.squarespace-cdn.com/content/v1/65143446bdd17e76b8ab7ced/8a3f0cf1-2531-4afc-bcc9-5c7bacdf5529/SBM00070.jpg') center/cover no-repeat;
+                url('/static/img/gallery/SBM00078-Enhanced-NR.jpg') center/cover no-repeat;
 }

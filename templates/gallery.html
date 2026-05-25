@@ -1,6 +1,24 @@
 {% extends "layout.html" %}
-{% block title %}Bottomless Brunch — The Mad House{% endblock %}
+{% block title %}Gallery — The Mad House{% endblock %}
+
 {% block content %}
-    <h1>Gallery</h1>
-    <p>Content coming soon.</p>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Gallery</h1>
+        <p class="lead">A taste of the madness.</p>
+    </div>
+
+    <div class="row g-3">
+        {% for image in images %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='img/gallery/' + image) }}"
+                     class="card-img-top"
+                     alt="Mad House Gallery"
+                     style="object-fit: cover; height: 200px;">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

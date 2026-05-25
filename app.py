@@ -40,7 +40,10 @@ def private_hire():
 
 @app.route("/gallery")
 def gallery():
-    return render_template("gallery.html", venues=venues)
+    img_folder = os.path.join(app.static_folder, 'img/gallery')
+    images = [f for f in os.listdir(img_folder) if f.endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+    images.sort()
+    return render_template("gallery.html", venues=venues, images=images)
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
