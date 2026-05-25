@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-from data import venues
+from data import venues, menu
 import os
 
 load_dotenv()
@@ -24,11 +24,11 @@ def home():
 
 @app.route("/menu/pink-lane")
 def menu_pink_lane():
-    return render_template("menu_pink_lane.html", venues=venues)
+    return render_template("menu_pink_lane.html", venues=venues, menu=menu["pink_lane"])
 
 @app.route("/menu/dean-street")
 def menu_dean_street():
-    return render_template("menu_dean_street.html", venues=venues)
+    return render_template("menu_dean_street.html", venues=venues, menu=menu["dean_street"])
 
 @app.route("/bottomless-brunch")
 def bottomless_brunch():
