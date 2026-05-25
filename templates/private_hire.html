@@ -1,6 +1,62 @@
 {% extends "layout.html" %}
-{% block title %}Bottomless Brunch — The Mad House{% endblock %}
+{% block title %}Private Hire — The Mad House{% endblock %}
+
 {% block content %}
-    <h1>Private Hire</h1>
-    <p>Content coming soon.</p>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Private Hire</h1>
+        <p class="lead">Funky, quirky, and uniquely Mad. The perfect venue for your next event.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">👥</h2>
+                <h5 class="fw-bold">Up to 50 Guests</h5>
+                <p class="text-muted">Intimate enough to feel exclusive, big enough to celebrate properly</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">🍹</h2>
+                <h5 class="fw-bold">Bespoke Packages</h5>
+                <p class="text-muted">Custom drinks packages, cocktail masterclasses, and more</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">🎂</h2>
+                <h5 class="fw-bold">Any Occasion</h5>
+                <p class="text-muted">Birthdays, hen parties, corporate events, Christmas parties</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card h-100 p-4">
+                <h4 class="fw-bold mb-3">Pink Lane</h4>
+                <p>{{ venues.pink_lane.description }}</p>
+                <p class="mb-1">📍 {{ venues.pink_lane.address }}</p>
+                <p>📞 <a href="tel:{{ venues.pink_lane.phone }}">{{ venues.pink_lane.phone }}</a></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 p-4">
+                <h4 class="fw-bold mb-3">Dean Street</h4>
+                <p>{{ venues.dean_street.description }}</p>
+                <p class="mb-1">📍 {{ venues.dean_street.address }}</p>
+                <p>📞 <a href="tel:{{ venues.dean_street.phone }}">{{ venues.dean_street.phone }}</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4 mb-5 text-center">
+        <h4 class="fw-bold mb-2">Interested in hiring the venue?</h4>
+        <p class="mb-4">Get in touch and we'll put together a bespoke package for your event.</p>
+        <a href="/contact" class="btn btn-danger btn-lg">Enquire Now</a>
+    </div>
+</div>
+
 {% endblock %}

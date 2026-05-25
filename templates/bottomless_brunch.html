@@ -1,6 +1,69 @@
 {% extends "layout.html" %}
 {% block title %}Bottomless Brunch — The Mad House{% endblock %}
+
 {% block content %}
-    <h1>Bottomless Brunch</h1>
-    <p>Content coming soon.</p>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Bottomless Brunch</h1>
+        <p class="lead">The craziest, most unforgettable bottomless brunch in Newcastle.</p>
+        <span class="badge bg-danger fs-6">Every Friday, Saturday & Sunday</span>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">🥂</h2>
+                <h5 class="fw-bold">90 Minutes</h5>
+                <p class="text-muted">Unlimited drinks for 90 glorious minutes</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">🍳</h2>
+                <h5 class="fw-bold">Food Included</h5>
+                <p class="text-muted">Choice of brunch main with every booking</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <h2 class="display-4">🎉</h2>
+                <h5 class="fw-bold">Groups Welcome</h5>
+                <p class="text-muted">Perfect for birthdays, hen dos, and celebrations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        {% for item in menu["dean_street"]["bottomless_brunch"] %}
+        <div class="col-md-6">
+            <div class="card h-100 p-4 d-flex flex-row justify-content-between align-items-start">
+                <div>
+                    <h5 class="fw-bold mb-1">{{ item.name }}</h5>
+                    <p class="text-muted mb-0">{{ item.description }}</p>
+                </div>
+                <span class="badge bg-danger ms-3 fs-6">£{{ "%.2f"|format(item.price) }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="card p-4 mb-5">
+        <h4 class="fw-bold mb-3">Good to Know</h4>
+        <ul class="mb-0">
+            <li>Available every Friday, Saturday and Sunday</li>
+            <li>Bookings for groups of 4 or more</li>
+            <li>Pre-orders required at time of booking</li>
+            <li>ID may be required on arrival</li>
+            <li>Management reserves the right to refuse service</li>
+        </ul>
+    </div>
+
+    <div class="text-center">
+        <a href="{{ venues.dean_street.booking_url }}" target="_blank" class="btn btn-danger btn-lg">
+            Book Bottomless Brunch
+        </a>
+    </div>
+</div>
+
 {% endblock %}

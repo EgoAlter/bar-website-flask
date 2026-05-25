@@ -32,7 +32,7 @@ def menu_dean_street():
 
 @app.route("/bottomless-brunch")
 def bottomless_brunch():
-    return render_template("bottomless_brunch.html", venues=venues)
+    return render_template("bottomless_brunch.html", venues=venues, menu=menu)
 
 @app.route("/private-hire")
 def private_hire():
