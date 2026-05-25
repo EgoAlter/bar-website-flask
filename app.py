@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
+from functools import wraps
 from dotenv import load_dotenv
 from data import venues, menu
 import os
@@ -97,6 +98,94 @@ def gift_cards():
 @app.route("/book")
 def book():
     return render_template("book.html", venues=venues)
+
+# --- Admin auth decorator ---
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+# --- Admin routes ---
+
+@app.route("/admin")
+def admin():
+    return redirect(url_for('admin_dashboard'))
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        password = request.form.get("password")
+        if password == os.getenv('ADMIN_PASSWORD'):
+            session['admin_logged_in'] = True
+            return redirect(url_for('admin_dashboard'))
+        flash("Incorrect password.", "danger")
+    return render_template("admin/login.html")
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('admin_login'))
+
+@app.route("/admin/dashboard")
+@admin_required
+def admin_dashboard():
+    items = MenuItem.query.order_by(MenuItem.venue, MenuItem.category).all()
+    return render_template("admin/dashboard.html", items=items)
+
+@app.route("/admin/menu/add", methods=["GET", "POST"])
+@admin_required
+def admin_add():
+    if request.method == "POST":
+        item = MenuItem(
+            name=request.form.get("name"),
+            description=request.form.get("description"),
+            price=float(request.form.get("price")),
+            category=request.form.get("category"),
+            venue=request.form.get("venue"),
+            available=True
+        )
+        db.session.add(item)
+        db.session.commit()
+        flash(f"'{item.name}' added successfully.", "success")
+        return redirect(url_for('admin_dashboard'))
+    return render_template("admin/add.html")
+
+@app.route("/admin/menu/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def admin_edit(id):
+    item = MenuItem.query.get_or_404(id)
+    if request.method == "POST":
+        item.name = request.form.get("name")
+        item.description = request.form.get("description")
+        item.price = float(request.form.get("price"))
+        item.category = request.form.get("category")
+        item.venue = request.form.get("venue")
+        db.session.commit()
+        flash(f"'{item.name}' updated successfully.", "success")
+        return redirect(url_for('admin_dashboard'))
+    return render_template("admin/edit.html", item=item)
+
+@app.route("/admin/menu/toggle/<int:id>")
+@admin_required
+def admin_toggle(id):
+    item = MenuItem.query.get_or_404(id)
+    item.available = not item.available
+    db.session.commit()
+    return redirect(url_for('admin_dashboard'))
+
+@app.route("/admin/menu/delete/<int:id>", methods=["POST"])
+@admin_required
+def admin_delete(id):
+    item = MenuItem.query.get_or_404(id)
+    db.session.commit()
+    db.session.delete(item)
+    db.session.commit()
+    flash(f"'{item.name}' deleted.", "warning")
+    return redirect(url_for('admin_dashboard'))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

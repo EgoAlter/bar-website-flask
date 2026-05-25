@@ -1,0 +1,45 @@
+{% extends "admin/layout.html" %}
+{% block title %}Dashboard — Mad House Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">Menu Items</h1>
+    <a href="/admin/menu/add" class="btn btn-danger">+ Add Item</a>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Venue</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="{{ 'text-muted' if not item.available }}">
+            <td>{{ item.name }}</td>
+            <td>{{ item.venue | replace("_", " ") | title }}</td>
+            <td>{{ item.category | replace("_", " ") | title }}</td>
+            <td>£{{ "%.2f"|format(item.price) }}</td>
+            <td>
+                <a href="/admin/menu/toggle/{{ item.id }}"
+                   class="badge {{ 'bg-success' if item.available else 'bg-secondary' }} text-decoration-none">
+                    {{ 'Live' if item.available else 'Hidden' }}
+                </a>
+            </td>
+            <td class="d-flex gap-2">
+                <a href="/admin/menu/edit/{{ item.id }}" class="btn btn-sm btn-outline-light">Edit</a>
+                <form method="POST" action="/admin/menu/delete/{{ item.id }}"
+                      onsubmit="return confirm('Delete {{ item.name }}?')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
